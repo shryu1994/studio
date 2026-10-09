@@ -1,68 +1,235 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>SH Ryu Studio — small AI products, built carefully</title>
-<meta name="description" content="SH Ryu Studio is an independent software studio in Seoul, South Korea, building two AI products: Today, One Step (a daily Korean saju companion) and Companion (2D-to-3D characters that move, emote and speak).">
-<link rel="canonical" href="https://studio.sh-ryu.com/">
-<style>
-  :root { --fg:#1b1b1f; --muted:#5d5d66; --line:#e4e4e8; --accent:#c2410c; }
-  * { box-sizing:border-box; }
-  body { margin:0; font:17px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", "Apple SD Gothic Neo", sans-serif; color:var(--fg); background:#fff; }
-  main { max-width:760px; margin:0 auto; padding:56px 24px 72px; }
-  header p { color:var(--muted); margin:4px 0 0; }
-  h1 { font-size:2.1rem; line-height:1.25; margin:28px 0 12px; }
-  h2 { font-size:1.35rem; margin:48px 0 8px; }
-  h3 { font-size:1.1rem; margin:0 0 4px; }
-  .product { border:1px solid var(--line); border-radius:12px; padding:20px 22px; margin:16px 0; }
-  .status { display:inline-block; font-size:.8rem; color:var(--accent); border:1px solid var(--accent); border-radius:999px; padding:0 10px; margin-bottom:8px; }
-  ul { padding-left:1.2rem; }
-  footer { border-top:1px solid var(--line); margin-top:56px; padding-top:20px; color:var(--muted); font-size:.92rem; }
-  a { color:var(--accent); }
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SH Ryu Studio — consumer software in development</title>
+  <meta name="description" content="A one-person software studio in Seoul with two products in development: Today, One Step and Companion, for daily readings and character companionship.">
+  <link rel="canonical" href="https://studio.sh-ryu.com/">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://studio.sh-ryu.com/">
+  <meta property="og:site_name" content="SH Ryu Studio">
+  <meta property="og:title" content="SH Ryu Studio — consumer software in development">
+  <meta property="og:description" content="A one-person software studio in Seoul with two products in development: Today, One Step and Companion, for daily readings and character companionship.">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="SH Ryu Studio — consumer software in development">
+  <meta name="twitter:description" content="A one-person software studio in Seoul with two products in development: Today, One Step and Companion, for daily readings and character companionship.">
+  <style>
+    :root {
+      --surface: #fff9f2;
+      --raised: #fff;
+      --ink: #30251f;
+      --muted: #68554b;
+      --accent: #923d22;
+      --border: #827b6d;
+      --band: #f0e1d3;
+      --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-label: ui-monospace, "SF Mono", Menlo, monospace;
+      --type-body: clamp(1rem, .96rem + .18vw, 1.125rem);
+      --type-h2: clamp(1.5625rem, 1.2rem + 1.5vw, 2.1973rem);
+      --type-h1: clamp(2.4414rem, 1.5rem + 3.8vw, 4.2915rem);
+      --space-section: clamp(48px, 6.5vw, 88px);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: auto; }
+    body {
+      margin: 0;
+      background: var(--surface);
+      color: var(--ink);
+      font-family: var(--font-body);
+      font-size: var(--type-body);
+      line-height: 1.65;
+    }
+    a { color: var(--accent); text-underline-offset: .2em; overflow-wrap: anywhere; }
+    a:hover { text-decoration-thickness: 2px; }
+    a:focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; }
+    h1, h2, h3 { margin: 0; line-height: 1.15; overflow-wrap: anywhere; }
+    p { margin: 16px 0 0; }
+    [lang="ko"] { word-break: keep-all; overflow-wrap: normal; }
+
+    .shell { width: min(100% - 48px, 1040px); margin-inline: auto; }
+    .skip-link {
+      position: absolute;
+      inset-block-start: 12px;
+      inset-inline-start: 24px;
+      z-index: 1;
+      padding: 12px 20px;
+      background: var(--raised);
+      transform: translateY(calc(-100% - 24px));
+    }
+    .skip-link:focus { transform: translateY(0); }
+    .brand {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+      padding-block: 28px;
+      border-bottom: 1px solid var(--border);
+    }
+    .brand p { margin: 0; }
+    .brand-name { font-size: 1.25rem; font-weight: 700; letter-spacing: -.02em; }
+    .muted { color: var(--muted); }
+    .hero { padding-block: 80px; }
+    .hero h1 { font-size: var(--type-h1); font-weight: 750; max-width: 17ch; letter-spacing: -.04em; }
+    .lede {
+      font-size: clamp(1.125rem, 1.02rem + .45vw, 1.375rem);
+      color: var(--muted);
+      max-width: 65ch;
+      margin-block: 24px 32px;
+    }
+    .primary {
+      display: inline-flex;
+      min-height: 48px;
+      padding: 12px 20px;
+      border: 1px solid var(--accent);
+      border-radius: 999px;
+      background: var(--accent);
+      color: var(--raised);
+      font-weight: 600;
+      text-decoration: none;
+    }
+    section { padding-block: var(--space-section); }
+    .section-head { margin-block-end: 32px; }
+    h2.label {
+      max-width: none;
+      margin: 0 0 16px;
+      color: var(--muted);
+      font-family: var(--font-label);
+      font-size: 1rem;
+      font-weight: 400;
+      line-height: 1.65;
+      letter-spacing: .06em;
+    }
+    .label::before {
+      content: "";
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      margin-inline-end: 10px;
+      border-radius: 50%;
+      background: var(--accent);
+      vertical-align: middle;
+    }
+    #products { padding-block-start: 0; }
+    .products { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; }
+    .product { padding: 40px; border: 1px solid var(--border); border-radius: 24px; background: var(--raised); }
+    .product h3 { max-width: 15ch; font-size: var(--type-h2); font-weight: 650; letter-spacing: -.012em; }
+    .product p, .product li { color: var(--muted); }
+    .product .status {
+      display: inline-block;
+      margin: 0 0 24px;
+      padding: 4px 12px;
+      border: 1px solid var(--accent);
+      border-radius: 4px;
+      color: var(--accent);
+      font-family: var(--font-label);
+      font-size: 1rem;
+    }
+    .product ul { padding-inline-start: 20px; margin-block-start: 24px; }
+    .product li { margin-block-start: 16px; }
+    .product li + li { margin-block-start: 12px; }
+    .band { border-block: 1px solid var(--border); background: var(--band); }
+    .band p { color: var(--muted); }
+    #build .section-inner, #founder .section-inner { display: grid; grid-template-columns: 1fr 1.7fr; gap: 64px; }
+    #build .section-head { margin: 0; }
+    #build .section-body, #founder .section-body { max-width: 72ch; }
+    #founder a { display: inline-flex; min-height: 24px; margin-block-start: 24px; }
+    #contact { padding-block-start: 0; }
+    .links { display: flex; flex-wrap: wrap; gap: 12px 24px; margin-block-start: 20px; }
+    .links a { display: inline-flex; min-height: 24px; }
+    footer { padding-block: 32px 48px; border-top: 1px solid var(--border); color: var(--muted); font-size: 1rem; }
+
+    @media (max-width: 700px) {
+      .shell { width: calc(100% - 40px); }
+      .brand { display: block; padding-block: 24px; }
+      .brand .muted { margin-block-start: 8px; }
+      .hero { padding-block: 56px; }
+      .products { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+      .product { padding: 24px; }
+      #build .section-inner, #founder .section-inner { display: block; }
+      #build .section-head { margin-block-end: 24px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      * { scroll-behavior: auto; animation: none; transition: none; }
+    }
+  </style>
 </head>
 <body>
-<main>
-  <header>
-    <strong>SH Ryu Studio</strong>
-    <p>Independent software studio · Seoul, South Korea</p>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="shell brand">
+    <p data-copy="B02.name" class="brand-name">SH Ryu Studio</p>
+    <p data-copy="B02.descriptor" class="muted">Independent software studio · Seoul, South Korea</p>
   </header>
-
-  <h1>Small AI products, built carefully.</h1>
-  <p>SH Ryu Studio builds consumer AI products for Korean users first. We are a one-person studio founded in 2026 by Seunghyun Ryu, a site reliability engineer with experience running cloud systems for banking, the public sector and medical devices. We care about products that are pleasant to use, honest about what they do, and reliable in production.</p>
-
-  <h2>Products</h2>
-
-  <section class="product" id="today-one-step">
-    <span class="status">In development</span>
-    <h3>Today, One Step (오늘의 한 걸음)</h3>
-    <p>A daily saju (Korean Four Pillars) companion. You enter your birth date once, and a friendly character named Mora gives you today's reading in a few plain sentences and one small thing to do. It is entertainment, not advice.</p>
-    <ul>
-      <li>Calculation engine covering solar dates from 1908 onward in the Asia/Seoul time zone, checked against public astronomical data.</li>
-      <li>A versioned, human-written reading library: the same day and question always give the same answer.</li>
-      <li>Runs in the browser; birth details are not stored or sent to a server.</li>
-    </ul>
-  </section>
-
-  <section class="product" id="companion">
-    <span class="status">In development · research prototype</span>
-    <h3>Companion</h3>
-    <p>Turn a 2D character design into a 3D character that can dance, show emotion and speak naturally, and keep it as a desktop companion that remembers you.</p>
-    <ul>
-      <li>Character pipeline from multi-view 2D sheets to a rigged 3D body, verified in both Blender and Unity.</li>
-      <li>Facial expression and speech work in progress.</li>
-      <li>Privacy first: conversation and memory are designed to stay on the user's own computer.</li>
-    </ul>
-  </section>
-
-  <h2>How we build</h2>
-  <p>We build with AI coding agents, including Claude Code, and use evaluation harnesses and independent reviews so that each release is measured rather than assumed. We plan to use Claude in the products themselves for natural Korean dialogue with our characters and for reviewing the quality of written content.</p>
-
-  <footer>
-    <p>SH Ryu Studio · Seoul, South Korea · Founder: Seunghyun Ryu (류승현)</p>
-    <p>Contact: <a href="mailto:hello@sh-ryu.com">hello@sh-ryu.com</a> · <a href="https://github.com/shryu1994">GitHub</a> · <a href="https://www.linkedin.com/in/shryu1994">LinkedIn</a></p>
+  <main id="main" tabindex="-1">
+    <div class="hero shell">
+      <h1 data-copy="B03.h1-primary">A software studio building everyday companions</h1>
+      <p data-copy="B03.intro" class="lede">SH Ryu Studio is a one-person software studio in Seoul, building consumer products for Korean-speaking people. Founder Seunghyun Ryu brings a Site Reliability Engineering (SRE) background in regulated industries. Our two products in development explore daily saju (Korean Four Pillars) readings and desktop character companionship.</p>
+      <a data-copy="B07.link-email" href="mailto:hello@sh-ryu.com" class="primary">Email SH Ryu Studio</a>
+    </div>
+    <section id="products">
+      <div class="shell section-inner">
+        <div class="section-head"><h2 data-copy="B04.section-label" class="label">Products</h2></div>
+        <div class="section-body products">
+          <article class="product" id="today-one-step">
+            <p data-copy="B04.status" class="status">In development</p>
+            <h3 data-copy="B04.name">Today, One Step (<span lang="ko">오늘의 한 걸음</span>)</h3>
+            <p data-copy="B04.description">A daily saju (Korean Four Pillars) companion with a character named Mora. Each short reading suggests one small thing to do. It is made for entertainment.</p>
+            <ul>
+              <li data-copy="B04.bullet-1">A deterministic calculation engine and a fixed, versioned reading bank.</li>
+              <li data-copy="B04.bullet-2">Readings use plain Korean in a single-screen format.</li>
+              <li data-copy="B04.bullet-3">Runs in your browser; it is designed not to store or send your birth details.</li>
+            </ul>
+          </article>
+          <article class="product" id="companion">
+            <p data-copy="B05.status" class="status">In development</p>
+            <h3 data-copy="B05.name">Companion</h3>
+            <p data-copy="B05.description">A desktop character companion in development. The prototype explores conversation and memory on your computer.</p>
+            <ul>
+              <li data-copy="B05.bullet-1">We are building a pipeline that turns 2D character designs into 3D characters that can dance, emote and speak.</li>
+              <li data-copy="B05.bullet-2">The desktop prototype can converse and remember details across sessions.</li>
+              <li data-copy="B05.bullet-3">Conversation and memory are designed to stay on your own computer.</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+    <section id="build" class="band">
+      <div class="shell section-inner">
+        <div class="section-head"><h2 data-copy="B06.heading" class="label">How we build</h2></div>
+        <div class="section-body">
+          <p data-copy="B06.development">Today, we use Claude only for development, through Claude Code. We do not use Claude inside either product.</p>
+          <p data-copy="B06.plan">We plan to evaluate Claude inside the products for Korean dialogue with characters and for reviewing written content.</p>
+          <p data-copy="B06.quality">We check development builds through evaluation and independent review.</p>
+        </div>
+      </div>
+    </section>
+    <section id="founder">
+      <div class="shell section-inner">
+        <div class="section-head"><h2 data-copy="B07.about-heading" class="label">About the founder</h2></div>
+        <div class="section-body">
+          <p data-copy="B07.about">Seunghyun Ryu is a Site Reliability Engineer with experience in public-sector, finance and medical-device cloud operations. He is building SH Ryu Studio as a one-person software studio.</p>
+          <a data-copy="B03.founder-link" href="https://sh-ryu.com/">Seunghyun Ryu’s personal site</a>
+        </div>
+      </div>
+    </section>
+    <section id="contact">
+      <div class="shell section-inner">
+        <div class="section-head"><h2 data-copy="B07.contact-heading" class="label">Contact</h2></div>
+        <div class="section-body">
+          <p data-copy="B07.email-address">hello@sh-ryu.com</p>
+          <div class="links">
+            <a data-copy="B07.link-email" href="mailto:hello@sh-ryu.com">Email SH Ryu Studio</a>
+            <a data-copy="B07.link-github" href="https://github.com/shryu1994">SH Ryu on GitHub</a>
+            <a data-copy="B07.link-linkedin" href="https://www.linkedin.com/in/shryu1994">Seunghyun Ryu on LinkedIn</a>
+            <a data-copy="B07.link-personal" href="https://sh-ryu.com/">Visit the founder’s personal site</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer class="shell">
+    <p data-copy="B08.footer">SH Ryu Studio · Seoul, South Korea · Founder: Seunghyun Ryu</p>
   </footer>
-</main>
 </body>
 </html>
